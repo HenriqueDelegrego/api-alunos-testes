@@ -32,11 +32,17 @@ public class Aluno {
 	@Column(name = "media")
 	private double media;
 
-	// Construtor padrão exigido pela JPA
-	public Aluno() {
+	public Aluno(Long id, String nome, String email, String senha, LocalDate dataNascimento, double media) {
+		this.id = id;
+		this.nome = nome;
+		this.email = email;
+		this.senha = senha;
+		this.dataNascimento = dataNascimento;
+		this.media = media;
 	}
 
-	// Getters e Setters
+	public Aluno() {
+	}
 
 	public Long getId() {
 		return id;
