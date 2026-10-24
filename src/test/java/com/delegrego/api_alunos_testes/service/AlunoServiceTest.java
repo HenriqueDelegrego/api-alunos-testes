@@ -34,17 +34,37 @@ public class AlunoServiceTest {
 
 		// Stub -> parte
 		Mockito.when(repository.existsByEmailIgnoreCase(alunoRequest.getEmail())).thenReturn(false);
-		
-		Aluno aluno = new Aluno(1L, alunoRequest.getNome(), alunoRequest.getEmail(), alunoRequest.getSenha(), alunoRequest.getDataNascimento(), alunoRequest.getMedia());
+
+		Aluno aluno = new Aluno(1L, alunoRequest.getNome(), alunoRequest.getEmail(), alunoRequest.getSenha(),
+				alunoRequest.getDataNascimento(), alunoRequest.getMedia());
 
 		Mockito.when(repository.save(Mockito.any(Aluno.class))).thenReturn(aluno);
-		
+
 		// Act
 		AlunoResponse alunoSalvo = service.cadastrarAluno(alunoRequest);
 
 		// Assert
 		Assertions.assertThat(alunoSalvo).isNotNull();
 		Assertions.assertThat(alunoSalvo.getId()).isGreaterThan(0);
+
+	}
+
+	@Test
+	void deveRetornarListaDeAlunos() {
+
+		// Arrange
+		Aluno aluno1 = new Aluno(1L, "José", "jose@email.com", "senha", LocalDate.of(2001, 11, 21), 8.5);
+		Aluno aluno2 = new Aluno(2L, "Maria", "mariae@email.com", "senha", LocalDate.of(2001, 11, 21), 8.5);
+
+		// Stub do findAll
+
+		Mockito.when(repository.findAll()).thenReturn(List.of(aluno1, aluno2));
+
+		// Act
+		List<AlunoResponse> listaAlunos = service.listarAlunos();
+
+		// Assert
+		Assertions.assertThat(listaAlunos).hasSize(2);
 
 	}
 
